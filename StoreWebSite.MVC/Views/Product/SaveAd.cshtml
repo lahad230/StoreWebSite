@@ -1,0 +1,13 @@
+﻿@* This page indicates if creating and add was successful. *@
+
+@{ 
+    ViewData["Title"] = "Ad status";
+}
+@if (ViewBag.Success)
+{
+    <div>Ad posted!</div>
+}
+else
+{
+    <div>Error occured. Ad was not posted</div>
+}

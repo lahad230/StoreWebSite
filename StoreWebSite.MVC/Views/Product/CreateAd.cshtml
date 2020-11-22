@@ -1,0 +1,56 @@
+﻿@inject StoreWebSite.MVC.Interfaces.IUserManagement _um
+@model CreateAdViewModel
+
+@{
+    ViewData["Title"] = "Create Ad";
+}
+
+@* guest trying to move to this page using the url will not see the form. *@
+@if (_um.GetUser() != null)
+{
+        @* From for creating new product*@
+        <form asp-action="SaveAd" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input class="form-control w-50" asp-for="Title" />
+                <span class="text-danger" asp-validation-for="Title"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortDescription"></label>
+                <input class="form-control w-50" asp-for="ShortDescription" />
+                <span class="text-danger" asp-validation-for="ShortDescription"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LongDescription"></label>
+                <input class="form-control w-50" asp-for="LongDescription" />
+                <span class="text-danger" asp-validation-for="LongDescription"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input class="form-control w-50" asp-for="Price" />
+                <span class="text-danger" asp-validation-for="Price"></span>
+            </div>
+            <div class="form-group">
+                Pictures Must be of type: png/jpeg/bmp!
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture1"></label>
+                <input class="form-control w-50" asp-for="Picture1" type="file" accept="image/jpeg,.bmp,.png" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture2"></label>
+                <input class="form-control w-50" asp-for="Picture2" type="file" accept="image/jpeg,.bmp,.png" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture3"></label>
+                <input class="form-control w-50" asp-for="Picture3" type="file" accept="image/jpeg,.bmp,.png" />
+            </div>
+            <div>
+                <input class="btn btn-primary" type="submit" value="Post ad" />
+            </div>
+        </form>
+}
+else
+{
+    <h1>You must log in to see this page</h1>
+}

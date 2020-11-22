@@ -1,0 +1,101 @@
+﻿@inject StoreWebSite.MVC.Interfaces.IUserManagement _um
+
+@model CreateOrUpdateViewModel
+
+@{
+    ViewData["Title"] = "Register/ Personal info";
+
+}
+
+
+@* form to create new users, or updating details on old users. *@
+<form asp-action="CreateUpdateResult" method="post">
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <div class="row">
+            <input class="form-control w-50" asp-for="FirstName" />
+            @* on falied validations, red Asterisk will apear next to not valid properties *@
+            @if (TempData["FirstName"] != null)
+            {
+                <span class="text-danger">*</span>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <div class="row">
+            <input class="form-control w-50" asp-for="LastName" />
+            @if (TempData["LastName"] != null)
+            {
+                <span class="text-danger">*</span>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <div class="row">
+            <input class="form-control username w-50" asp-for="UserName" />
+            @if (TempData["UserName"] != null)
+            {
+                <span class="text-danger username">*</span>
+            }
+        </div>
+    </div>
+    @* if user is logged in, hide the username validation and greyout the username field*@
+    @if (_um.GetUser() != null)
+    {
+        <script>
+            let elements = document.getElementsByClassName("username");
+            elements[0].setAttribute("disabled", "disables");
+            elements[1].setAttribute("hidden", "hidden");
+        </script>
+    }
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <div class="row">
+            <input class="form-control w-50" asp-for="Email" />
+            @if (TempData["Email"] != null)
+            {
+                <span class="text-danger">*</span>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <div class="row">
+            <input class="form-control w-50" asp-for="Password" />
+            @if (TempData["Password"] != null)
+            {
+                <span class="text-danger">*</span>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ValPassword"></label>
+        <div class="row">
+            <input class="form-control w-50" asp-for="ValPassword" />
+            @if ( TempData["ValPassword"] != null)
+            {
+                <span class="text-danger">*</span>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthDay"></label>
+        <div class="row">
+            <input class="form-control w-50" asp-for="BirthDay" type="date" />
+        </div>
+    </div>
+
+    @* change the writing on the button if user is logged in or not. *@
+    @if (_um.GetUser() == null)
+    {
+        <button class="btn btn-primary" type="submit">Register new user</button>
+    }
+    else
+    {
+        <button class="btn btn-primary" type="submit">Save Changes</button>
+    }
+</form>

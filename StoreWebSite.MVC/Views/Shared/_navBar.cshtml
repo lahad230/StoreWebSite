@@ -1,0 +1,64 @@
+﻿@inject StoreWebSite.MVC.Interfaces.IUserManagement _um
+
+<li class="nav-item">
+@* Check page title to see which page the user is viewing. 
+   if user views a certain page the link to it will apear greyed out. *@
+    @if (ViewData["Title"] != "Products for sale")
+    {
+        <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">Products for sale</a>
+    }
+    else
+    {
+        <a class="nonOperational nav-link">Products for sale</a>
+    }
+</li>
+<li class="nav-item">
+    @if (ViewData["title"] != "My cart")
+    {
+        <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="ShowCart">My cart</a>
+    }
+    else
+    {
+        <a class="nonOperational nav-link">My cart</a>
+    }
+</li>
+<li class="nav-item">
+    @if (ViewData["title"] != "Register/ Personal info")
+    {
+        <a class="nav-link" asp-area="" asp-controller="User" asp-action="CreateOrUpdate">Register/ Personal info</a>
+    }
+    else
+    {
+        <a class="nonOperational nav-link">Register/ Personal info</a>
+    }
+</li>
+
+@* this navigation link will apear only to logged in users. *@
+@if (_um.GetUser() != null)
+{
+    <li class="nav-item">
+        @if (ViewData["title"] != "Create Ad")
+        {
+            <a class="nav-link" asp-area="" asp-controller="Product" asp-action="CreateAd">Create Ad</a>
+        }
+        else
+        {
+            <a class="nonOperational nav-link">Create Ad</a>
+        }
+    </li>
+}
+
+@* this navigation link will apear only to logged in admin. *@
+@if (_um.GetUser() != null && _um.GetUser().IsAdmin)
+{
+    <li class="nav-item">
+        @if (ViewData["title"] != "Log")
+        {
+            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="ShowLog">Log</a>
+        }
+        else
+        {
+            <a class="nonOperational nav-link">Log</a>
+        }
+    </li>
+}

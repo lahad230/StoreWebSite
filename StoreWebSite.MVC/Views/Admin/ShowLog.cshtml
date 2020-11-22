@@ -1,0 +1,29 @@
+﻿@inject StoreWebSite.MVC.Interfaces.IUserManagement _um
+@model IEnumerable<LogEntry>
+@{
+    ViewData["Title"] = "Log";
+}
+
+@* if user is not the admin, dont show data. *@
+@if (_um.GetUser() != null && _um.GetUser().IsAdmin)
+{
+    <div class="row">
+        <table class="table" border="1">
+            <tr>
+                <th>Content</th>
+                <th>Time Stamp</th>
+            </tr>
+            @foreach (var entry in Model)
+            {
+                <tr>
+                    <td>@entry.Content</td>
+                    <td>@entry.TimeStamp</td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <h1>You're not authorize to view this page</h1>
+}

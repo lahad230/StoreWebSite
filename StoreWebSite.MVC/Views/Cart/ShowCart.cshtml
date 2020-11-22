@@ -1,0 +1,37 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "My cart";
+    decimal sum = 0;
+}
+    <div class="row">
+        <table class="table" border="1">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            @* fill table with relevent data from model. *@
+            @foreach (var item in Model)
+            {
+                sum += item.Price;
+                <tr>
+                    @* product name will show its full details. *@
+                    <td>@Html.ActionLink(item.Title, "ShowFullProductDetails", "Product", new { productId = item.Id, inCart = true })</td>
+                    @* product price. *@
+                    <td>@item.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</td>
+                    @* link to remove priduct from cart. *@
+                    <td>@Html.ActionLink("Remove", "RemoveFromCart", "Cart", new { productId = item.Id })</td>
+                </tr>
+
+            }
+        </table>
+        </div>
+        @* members get 10% of purcahses. *@
+        @{
+            decimal sum2 = sum - sum / 10;
+        }
+        <div>Price: @sum.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</div>
+        <div>Price for members: @sum2.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</div>
+        <div>
+            @Html.ActionLink("Purchase", "BuyCart", "Cart")
+        </div>

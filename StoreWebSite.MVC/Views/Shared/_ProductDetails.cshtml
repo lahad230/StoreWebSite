@@ -1,0 +1,30 @@
+﻿@model Product
+@* show some of the properties of a certain product *@
+<div>
+    <h3>@Model.Title</h3>
+    <div>
+        Date added: @Model.Date.Day/@Model.Date.Month/@Model.Date.Year
+    </div>
+    <div>
+        Price: @Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)
+    </div>
+    <div>
+        Description: @Model.ShortDescription
+    </div>
+    @if (Model.Picture1 == null)
+    {
+        <span>
+            <img src="/pics/NoImage.png" height="100" />
+        </span>
+    }
+    else
+    {
+        <span>
+            <img src="data:image/png;base64, @Convert.ToBase64String(Model.Picture1)" height="100" />
+        </span>
+    }
+    <div>
+        @Html.ActionLink("Add to cart", "AddToCart", "Cart", new CartItem { Added = DateTime.Now, ProductId = Model.Id }) |
+        @Html.ActionLink("More details", "ShowFullProductDetails", "Product", new { ProductId = Model.Id })
+    </div>
+</div>

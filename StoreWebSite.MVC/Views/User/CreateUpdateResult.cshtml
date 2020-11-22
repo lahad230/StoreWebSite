@@ -1,0 +1,24 @@
+﻿@model CreateOrUpdateViewModel
+
+@{
+    ViewData["Title"] = "Registration";
+}
+
+@* if action succeded show relevent message *@
+@if (ViewBag.Success)
+{
+    if (!ViewBag.NewUser)
+    {
+        <span>User updated Successfully</span>
+    }
+    else
+    {
+        <span>User: @Model.UserName Created</span>
+    }
+}
+@*if the action failed, notify user on the error.*@
+else
+{
+    <span>Error occured, Please try again</span>
+    @Html.ActionLink("Back", "CreateOrUpdate");
+}

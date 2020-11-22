@@ -1,0 +1,28 @@
+﻿@* Site's main page *@
+
+@model List<Product>
+@{
+    ViewData["Title"] = "Products for sale";
+}
+@* link to change the order of products *@
+    <div class="ml-1">
+        @Html.ActionLink("Order by date", "index", new { isOrdered = true }) |
+        @Html.ActionLink("Order by title", "index", new { isOrdered = false })
+    </div>
+    <div class="container">
+        <div class="row">
+            @{int counter = 0; }
+            @* show all relevent products in their own partial views. *@
+            @foreach (var product in Model)
+            {
+                if (counter % 3 == 0)
+                {
+                    <div class="w-100"></div>
+                }
+                <div class="col-3 border border-dark bg-light m-1 partialViewWrapper" >
+                        @await Html.PartialAsync("_ProductDetails", product)
+                </div>
+                counter++;
+            }
+        </div>
+    </div>

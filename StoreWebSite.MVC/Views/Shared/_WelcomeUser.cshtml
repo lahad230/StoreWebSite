@@ -1,0 +1,8 @@
+﻿@inject StoreWebSite.MVC.Interfaces.IUserManagement _um
+
+<div class="writing">
+    @Html.DayTimeGreeting(_um.GetUser().UserName)
+</div>
+<form method="get">
+    <button class="btn btn-dark" asp-controller="User" asp-action="Disconnect">Disconnect</button>
+</form>

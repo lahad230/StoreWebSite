@@ -1,0 +1,83 @@
+﻿@*Whis page shows a certain product full details.*@
+@inject StoreWebSite.MVC.Interfaces.IItemInCarts _itemInCart
+@model Product
+
+@{
+    ViewData["Title"] = "More Details: " + Model.Title;
+    bool itemUnavailable = false;
+}
+
+@* product's title and price. *@
+<div>
+    <h2>@Model.Title - @Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</h2>
+</div>
+
+@* products creation date *@
+<div>@Model.Date.Day/@Model.Date.Month/@Model.Date.Year</div>
+
+@* Products descriptions. *@
+<div>
+    @Model.ShortDescription
+</div>
+<div>
+    @Model.LongDescription
+</div>
+
+
+@* products picture in order. if pic 2 is null, pic 3 will not show even if its not null. *@
+<div>
+    @if (Model.Picture1 == null)
+    {
+        <span>
+            <img class="border border-dark" src="/pics/NoImage.png" height="100" />
+        </span>
+    }
+    else
+    {
+        <span>
+            <img class="m-1 border border-dark" src="data:image/png;base64, @Convert.ToBase64String(Model.Picture1)" height="200" />
+        </span>
+        if (Model.Picture2 != null)
+        {
+            <span>
+                <img class="m-1 border border-dark" src="data:image/png;base64, @Convert.ToBase64String(Model.Picture2)" height="200" />
+            </span>
+            if (Model.Picture3 != null)
+            {
+                <span>
+                    <img class="m-1 border border-dark" src="data:image/png;base64, @Convert.ToBase64String(Model.Picture3)" height="200" />
+                </span>
+            }
+        }
+    }
+</div>
+
+@*if item in list of all items in carts, dont let it be added to another cart*@
+
+@if(_itemInCart.ItemsList.Any(item => item.ProductId == Model.Id))
+{
+    itemUnavailable = true;
+}
+
+@*if item in list of all items in carts, dont let it be added to another cart *@
+@if (!itemUnavailable)
+{
+    @Html.ActionLink("Add to cart", "AddToCart", "Cart", new CartItem { Added = DateTime.Now, ProductId = Model.Id });
+}
+    |
+@* if this page is viewed from the link in the cart,
+    going back will move user to the cart again.
+    else, user will be moved to main page.*@
+@if (ViewBag.InCart != null && ViewBag.InCart)
+{
+    @Html.ActionLink("Go back", "ShowCart", "Cart");
+}
+else
+{
+    @Html.ActionLink("Go back", "Index", "Product")
+}
+
+@* shows owner details. *@
+<div>
+    @ViewBag.OwnerFirstName @ViewBag.OwnerLastName @ViewBag.OwnerBirthday.Day/@ViewBag.OwnerBirthday.Month/@ViewBag.OwnerBirthday.Year @ViewBag.Email
+</div>
